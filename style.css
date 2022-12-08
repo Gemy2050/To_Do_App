@@ -90,6 +90,9 @@ body {
   height: 18px;
   display: inline-block;
   border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .container .tasks-num span{
   background-color: #0075ff;
