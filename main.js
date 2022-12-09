@@ -12,11 +12,19 @@ if (localStorage.getItem("tasks")) {
 
 // Handle Add Button
 button.onclick = function() {
+  if (input.value == "" || input.value == null) {
+    alert("Please, Enter Valid Text");
+    return false;
+  }
   addTasksToArray();
   addTasksToPage(array);
   input.value='';
   input.focus();
 }
+// Use Enter Button as Add Button
+input.onkeyup = function (e) {
+  if (e.key == "Enter") button.click();
+};
 
 // Handle Delete Buttons and Finished Tasks
 document.addEventListener("click", (e)=> {
