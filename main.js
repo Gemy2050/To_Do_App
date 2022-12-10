@@ -31,10 +31,12 @@ document.addEventListener("click", (e)=> {
   if(e.target.classList.contains('task')) {
     toggleCompletedTask(e.target.dataset.id);
     e.target.classList.toggle("finished");
+    getNums(array);
   }
   else if(e.target.className == 'del') {
     deleteTask(e.target.parentElement.dataset.id);
     e.target.parentElement.remove();
+    getNums(array);
   }
 });
 
@@ -80,7 +82,6 @@ function addTasksToPage(arr) {
     // Add Task Div To Tasks Container
     tasksContainer.appendChild(div);
   });
-  getNums(array);
 }
 addTasksToPage(array);
 
@@ -88,7 +89,6 @@ addTasksToPage(array);
 function deleteTask(id) {
   array = array.filter((el) => el.id != id);
   addTasksToLocalstorage(array);
-  getNums(array);
 }
 
 // Handle Completed Tasks
@@ -100,17 +100,12 @@ function toggleCompletedTask(id) {
   });
 
   addTasksToLocalstorage(array);
-  getNums(array);
 }
 
+// Get Tasks Count
 function getNums(arr) {
-  let counter = 0;
   tasksNum.innerHTML = arr.length;
 
-  arr.forEach((el) => {
-    if(el.completed == true)
-      counter++;
-  })
-
-  completedNum.innerHTML = counter;
+  completedNum.innerHTML = document.querySelectorAll(".finished").length;
 }
+getNums(array);
