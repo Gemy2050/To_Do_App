@@ -55,7 +55,7 @@ body {
   border-radius: 6px;
   margin-top: 10px;
   padding: 20px;
-  max-height: calc(100vh - 170px);
+  max-height: calc(100vh - 180px);
   overflow-y: auto;
 }
 .tasks .task {
@@ -115,5 +115,8 @@ body {
 @media(max-width: 767px) {
   .container .tasks {
     font-size: 14px;
+  }
+  .container button {
+    margin-left: 5px;
   }
 }
