@@ -55,13 +55,8 @@ body {
   border-radius: 6px;
   margin-top: 20px;
   padding: 20px;
-  max-height: calc(100vh - 155px);
+  max-height: calc(100vh - 160px);
   overflow-y: auto;
-}
-@media(max-width: 767px) {
-  .container .tasks {
-    font-size: 14px;
-  }
 }
 .tasks .task {
   background-color: white;
@@ -93,6 +88,7 @@ body {
 .container .tasks-num,
 .container .finished-num  {
   margin-top: 5px;
+  margin-bottom: 10px;
   color: white;
   font-size: 13px;
 }
@@ -116,4 +112,12 @@ body {
 }
 .container .finished-num span{
   background-color: #ff4436;
+}
+@media(max-width: 767px) {
+  .container .tasks {
+    font-size: 14px;
+  }
+  .container button {
+    font-size: 14px;
+  }
 }
