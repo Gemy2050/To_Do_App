@@ -1,10 +1,10 @@
 let input = document.querySelector(".container input"),
-  button = document.querySelector(".container button"),
+  button = document.querySelector(".container .add-btn"),
   tasksContainer = document.querySelector(".container .tasks"),
   tasksNum = document.querySelector(".tasks-num .num"),
   completedNum = document.querySelector(".finished-num .num"),
   array = [];
-
+  editId = null;
 // Check if There is Tasks In Local Storage
 if (localStorage.getItem("tasks")) {
   array = JSON.parse(localStorage.getItem("tasks"));
@@ -16,9 +16,15 @@ button.onclick = function() {
     alert("Please, Enter Valid Text");
     return false;
   }
-  addTasksToArray();
+  if(button.textContent == 'Add') {
+    addTasksToArray();
+  } else if(button.textContent == 'Edit') {
+    editArrayTask(editId);
+    addTasksToLocalstorage(array);
+    button.textContent = 'Add';
+  }
   addTasksToPage(array);
-  input.value='';
+  input.value = '';
   input.focus();
 }
 // Use Enter Button as Add Button
@@ -32,11 +38,17 @@ document.addEventListener("click", (e)=> {
     toggleCompletedTask(e.target.dataset.id);
     e.target.classList.toggle("finished");
     getNums(array);
+  } else if(e.target.classList.contains('task-text')) {
+    toggleCompletedTask(e.target.parentElement.dataset.id);
+    e.target.parentElement.classList.toggle("finished");
+    getNums(array);
   }
   else if(e.target.className == 'del') {
-    deleteTask(e.target.parentElement.dataset.id);
-    e.target.parentElement.remove();
+    deleteTask(e.target.parentElement.parentElement.dataset.id);
+    e.target.parentElement.parentElement.remove();
     getNums(array);
+  } else if(e.target.className == 'edit') {
+    editTask(e.target.parentElement.parentElement.dataset.id);
   }
 });
 
@@ -69,15 +81,34 @@ function addTasksToPage(arr) {
       div.className = "task finished";
     }
     div.setAttribute("data-id", el.id);
-    div.appendChild(document.createTextNode(el.value));
+
+    let textSpan = document.createElement("span");
+    textSpan.className = 'task-text';
+    textSpan.appendChild(document.createTextNode(el.value))
+
+    div.appendChild(textSpan);
 
     // Create Delete Button
-    let span = document.createElement("span");
-    span.className = "del";
-    span.appendChild(document.createTextNode("Delete"));
+    let deleteSpan = document.createElement("span");
+    deleteSpan.className = "del";
+    deleteSpan.appendChild(document.createTextNode("Delete"));
 
-    // Append Button To Main Div
-    div.appendChild(span);
+
+    // Create Edit Button
+    let editSpan = document.createElement("span");
+    editSpan.className = "edit";
+    editSpan.appendChild(document.createTextNode("Edit"));
+
+    // Create Buttons Parent
+    let btnsParent = document.createElement("div");
+    btnsParent.className = "btns-parent";
+    // Append Buttons
+    btnsParent.appendChild(deleteSpan);
+    btnsParent.appendChild(editSpan);
+
+    // Append Buttons Parent To Main Div
+    div.appendChild(btnsParent);
+
 
     // Add Task Div To Tasks Container
     tasksContainer.appendChild(div);
@@ -89,6 +120,30 @@ addTasksToPage(array);
 function deleteTask(id) {
   array = array.filter((el) => el.id != id);
   addTasksToLocalstorage(array);
+}
+
+// Handle Editing
+function editTask(id) {
+  array.forEach((el) => {
+    if(el.id == id) {
+      input.value = el.value;
+      input.focus();
+      button.textContent = 'Edit';
+    }
+  });
+
+  editId = id;
+}
+
+// Edit Task Value
+function editArrayTask(id) {
+  array.forEach((el) => {
+    if(el.id == id) {
+      el.value = input.value;
+      button.textContent = 'Add';
+      input.value = '';
+    }
+  })
 }
 
 // Handle Completed Tasks

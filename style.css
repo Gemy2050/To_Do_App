@@ -23,7 +23,7 @@ body {
   width: 500px;
   max-width: 95%;
   margin: 10px auto 20px;
-  text-align: center;
+  /* text-align: center; */
   color: black;
 }
 .container .form {
@@ -54,7 +54,7 @@ body {
 }
 .container .tasks {
   background-color: #fff;
-  /* border-radius: 6px; */
+  border-radius: 6px;
   margin-top: 10px;
   padding: 20px;
   max-height: calc(100vh - 185px);
@@ -67,6 +67,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 20px;
   transition: 0.3s;
   cursor: pointer;
   border: 1px solid #ccc;
@@ -77,15 +78,29 @@ body {
 .tasks .task:not(:last-child) {
   margin-bottom: 15px;
 }
-.tasks .finished {
+.tasks .finished .task-text{
   opacity: .5;
+  text-decoration: line-through;
 }
-.tasks .del {
-  background-color: red;
+.tasks .btns-parent {
+  display: flex;
+  gap: 10px;
+  text-align: center;
+}
+.tasks .del, .tasks .edit {
+  display: block;
+  min-width: 45px;
   color: white;
   font-size: 13px;
   padding: 2px 4px;
   border-radius: 6px;
+  user-select: none;
+}
+.tasks .del {
+  background-color: red;
+}
+.tasks .edit {
+  background-color: #0075ff;
 }
 .container .tasks-num,
 .container .finished-num  {
